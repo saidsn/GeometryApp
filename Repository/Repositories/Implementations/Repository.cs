@@ -18,7 +18,8 @@ namespace Repository.Repositories.Implementations
 
         public async Task<T> Get(int id)
         {
-            return await _entities.FindAsync(id) ?? throw new NullReferenceException();
+            var data = await _entities.FindAsync(id) ?? throw new NullReferenceException();
+            return data;
         }
 
         public async Task<List<T>> GetAll()
@@ -61,9 +62,14 @@ namespace Repository.Repositories.Implementations
             }
             catch (Exception ex)
             {
-
                 return false;
             }
+        }
+
+        public async Task<T> GetLast()
+        {
+            var data = await _entities.OrderByDescending(e => e.Id).FirstOrDefaultAsync() ?? throw new NullReferenceException();
+            return data;
         }
     }
 }

@@ -1,27 +1,29 @@
-﻿using Domain.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Repository.Data
 {
     public partial class POIContext : DbContext
     {
-        public POIContext(DbContextOptions<POIContext> options) : base(options)
+        public POIContext()
         {
+        }
 
+        public POIContext(DbContextOptions<POIContext> options)
+            : base(options)
+        {
         }
 
         public virtual DbSet<Build> Builds { get; set; } = null!;
-        public virtual DbSet<Domain.Models.Path> Paths { get; set; } = null!;
+        public virtual DbSet<Path> Paths { get; set; } = null!;
         public virtual DbSet<Poi> Pois { get; set; } = null!;
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=POI;Username=postgres;Password=26021989az.");
-            }
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    if (!optionsBuilder.IsConfigured)
+        //    {
+        //        optionsBuilder.UseNpgsql("DefaultConnection", o => o.UseNetTopologySuite());
+        //    }
+        //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -180,7 +182,7 @@ namespace Repository.Data
                     .HasColumnName("tourism");
             });
 
-            modelBuilder.Entity<Domain.Models.Path>(entity =>
+            modelBuilder.Entity<Path>(entity =>
             {
                 entity.HasKey(e => e.OgcFid)
                     .HasName("path_pkey");

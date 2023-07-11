@@ -5,6 +5,7 @@ namespace Repository.Repositories.Interfaces
     public interface IRepository<T> where T : BaseEntity
     {
         Task<T> Get(int id);
+        Task<T> GetLast();
         Task<List<T>> GetAll();
         Task Create(T entity);
         Task Delete(T entity);
